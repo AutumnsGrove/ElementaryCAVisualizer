@@ -8,7 +8,7 @@ A comprehensive project template with built-in Claude Code workflows, best pract
 
 **One-liner in Claude Code:**
 ```
-Clone https://github.com/AutumnsGrove/BaseProject to /tmp, copy (excluding .git, scripts, and TemplateDocs/) to ~/Projects/[ASK ME PROJECT NAME], customize CLAUDE.md and README with my project details [ASK ME: name, description, tech stack, API keys needed], init dependencies for my stack, create src/ and tests/ dirs, make secrets_template.json, generate smart TODOS.md, setup git with proper user config, optionally install pre-commit hooks [ASK ME], initial commit with BaseProject format, show summary and next steps
+Clone https://github.com/AutumnsGrove/BaseProject to /tmp, copy to ~/Projects/[ASK ME PROJECT NAME] excluding (.git, TemplateDocs/), rename TEMPLATE_CLAUDE.md to CLAUDE.md, customize CLAUDE.md sections (Project Purpose, Tech Stack, API Keys List, Architecture Notes) and README.md (title, description, features) with my project details [ASK ME: name, description, tech stack, API keys needed], init language-specific dependencies (uv for Python, npm for JS, go mod for Go), create proper directory structure (src/ with __init__.py or index.js, tests/ with __init__.py), generate secrets_template.json with my API key placeholders, write TODOS.md with 3-5 initial tasks derived from project description, git init with user.name and user.email from global git config, optionally copy pre-commit hooks from ClaudeUsage/pre_commit_hooks/ [ASK ME], make initial commit "feat: initialize [PROJECT] from BaseProject template", display project summary and next steps
 ```
 
 Claude will interactively:
