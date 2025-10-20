@@ -89,10 +89,6 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 - **When implementing test coverage** → Read `ClaudeUsage/testing_strategies.md`
 - **For test organization** → Read `ClaudeUsage/testing_strategies.md`
 
-### Documentation
-- **When gathering library docs** → Read `ClaudeUsage/context7_usage.md`
-- **Before using new frameworks** → Read `ClaudeUsage/context7_usage.md`
-- **For API documentation needs** → Read `ClaudeUsage/context7_usage.md`
 
 ### Code Quality
 - **When refactoring code** → Read `ClaudeUsage/code_style_guide.md`
@@ -114,12 +110,6 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 - Provide `secrets_template.json` for setup
 - Use environment variables as fallbacks
 
-### Context7 Quick Trigger
-**MANDATORY**: Use Context7 when encountering:
-- Unknown libraries or frameworks
-- New project requirements
-- Need for up-to-date API documentation
-- Integration tasks requiring detailed knowledge
 
 ### House Agents Quick Trigger
 **When searching 20+ files**, use house-research for:

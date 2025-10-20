@@ -23,7 +23,9 @@ This directory contains comprehensive guides for working with Claude on developm
 | [uv_usage.md](uv_usage.md) | UV package manager workflows | Python dependency management |
 | [testing_strategies.md](testing_strategies.md) | Test patterns and frameworks | Writing or debugging tests |
 | [code_quality.md](code_quality.md) | Linting, formatting, standards | Setting up quality checks |
+| [code_style_guide.md](code_style_guide.md) | General code style principles | Writing clean, maintainable code |
 | [project_structure.md](project_structure.md) | Directory layouts, file organization | Starting new projects |
+| [project_setup.md](project_setup.md) | Project initialization patterns | Setting up new projects from template |
 
 ### Documentation
 
@@ -82,16 +84,17 @@ When updating guides:
 
 For new projects, reference these guides in order:
 
-1. **project_structure.md** - Set up directory layout
-2. **git_workflow.md** - Initialize version control
-3. **git_conventional_commits.md** - Learn commit message standards
-4. **secrets_management.md** - Configure API keys
-5. **uv_usage.md** (Python) or relevant language guide
-6. **pre_commit_hooks/setup_guide.md** - Set up quality checks
-7. **testing_strategies.md** - Add test framework
-8. **docker_guide.md** (if needed) - Containerize application
+1. **project_setup.md** - Initialize project from template
+2. **project_structure.md** - Set up directory layout
+3. **git_workflow.md** - Initialize version control
+4. **git_conventional_commits.md** - Learn commit message standards
+5. **secrets_management.md** - Configure API keys
+6. **uv_usage.md** (Python) or relevant language guide
+7. **pre_commit_hooks/setup_guide.md** - Set up quality checks
+8. **testing_strategies.md** - Add test framework
+9. **docker_guide.md** (if needed) - Containerize application
 
 ---
 
 *Last updated: 2025-10-19*
-*Total guides: 16*
+*Total guides: 18*

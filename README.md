@@ -4,28 +4,37 @@ A comprehensive project template with built-in Claude Code workflows, best pract
 
 ## 🚀 Quick Start
 
-### Option 1: Automated Setup (Recommended)
+### Automated Setup with Claude Code (Recommended)
+
+**One-liner in Claude Code:**
+```
+Clone https://github.com/AutumnsGrove/BaseProject to /tmp, copy (excluding .git and scripts) to ~/Projects/[ASK ME PROJECT NAME], customize CLAUDE.md and README with my project details [ASK ME: name, description, tech stack, API keys needed], init dependencies for my stack, create src/ and tests/ dirs, make secrets_template.json, generate smart TODOS.md, setup git with proper user config, optionally install pre-commit hooks [ASK ME], initial commit with BaseProject format, show summary and next steps
+```
+
+Claude will interactively:
+- Ask for project name, tech stack, and requirements
+- Copy BaseProject template to your chosen location
+- Customize CLAUDE.md with your project details
+- Set up language-specific dependencies (pyproject.toml, package.json, etc.)
+- Create proper project structure (src/, tests/)
+- Generate secrets_template.json with your needed API keys
+- Initialize git with proper configuration
+- Create initial commit following our standards
+
+### Alternative: Setup Script
 
 ```bash
-# Clone/copy to your new project location
+# Copy to new location
 cp -r BaseProject/ ~/Projects/MyNewProject/
 cd ~/Projects/MyNewProject/
 
-# Run the interactive setup script
+# Run automated script
 bash setup_new_project.sh
 ```
 
-The script will:
-- Clean up the old git history
-- Rename `TEMPLATE_CLAUDE.md` to `CLAUDE.md`
-- Create a fresh `TODOS.md`
-- Initialize a new git repository
-- Prompt for project details
-- Create an initial commit
+### Manual Setup
 
-### Option 2: Manual Setup
-
-See [NEW_PROJECT_SETUP.md](NEW_PROJECT_SETUP.md) for detailed step-by-step instructions.
+See [NEW_PROJECT_SETUP.md](NEW_PROJECT_SETUP.md) for step-by-step instructions.
 
 ---
 
@@ -49,6 +58,43 @@ BaseProject/
 ├── NEW_PROJECT_SETUP.md        # Detailed setup guide
 └── .gitignore                  # Comprehensive gitignore
 ```
+
+---
+
+## 🏠 House Agents Integration
+
+This template works seamlessly with [house-agents](https://github.com/houseworthe/house-agents) - specialized Claude Code sub-agents that keep your context clean.
+
+### What Are House Agents?
+
+Specialized sub-agents that run heavy operations in separate context windows:
+- **house-research** - Search 70k+ tokens across files, return 3k summary (95% savings)
+- **house-git** - Analyze 43k token diffs, return 500 token summary (98% savings)
+- **house-bash** - Process 21k+ command output, return 700 token summary (97% savings)
+
+### Quick Install
+
+**Project-Level (this project only):**
+```bash
+git clone https://github.com/houseworthe/house-agents.git /tmp/house-agents
+cp -r /tmp/house-agents/.claude .
+```
+
+**User-Wide (all projects):**
+```bash
+git clone https://github.com/houseworthe/house-agents.git /tmp/house-agents
+mkdir -p ~/.claude/agents
+cp /tmp/house-agents/.claude/agents/*.md ~/.claude/agents/
+```
+
+**Test Installation:**
+```
+Use house-research to find all TODO comments in the codebase
+```
+
+See [ClaudeUsage/house_agents.md](ClaudeUsage/house_agents.md) for usage patterns and examples.
+
+**Credit:** House Agents by [@houseworthe](https://github.com/houseworthe/house-agents) (v0.2.0-beta)
 
 ---
 
