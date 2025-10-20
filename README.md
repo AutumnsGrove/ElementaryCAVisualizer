@@ -4,7 +4,7 @@ A comprehensive project template with built-in Claude Code workflows, best pract
 
 ## 🚀 Quick Start
 
-### Automated Setup with Claude Code (Recommended)
+### Using Claude Code (Recommended)
 
 **One-liner in Claude Code:**
 ```
@@ -21,20 +21,9 @@ Claude will interactively:
 - Initialize git with proper configuration
 - Create initial commit following our standards
 
-### Alternative: Setup Script
-
-```bash
-# Copy to new location
-cp -r BaseProject/ ~/Projects/MyNewProject/
-cd ~/Projects/MyNewProject/
-
-# Run automated script
-bash setup_new_project.sh
-```
-
 ### Manual Setup
 
-See [NEW_PROJECT_SETUP.md](NEW_PROJECT_SETUP.md) for step-by-step instructions.
+For full control over the setup process, see [NEW_PROJECT_SETUP.md](NEW_PROJECT_SETUP.md) for detailed step-by-step instructions.
 
 ---
 
@@ -47,15 +36,17 @@ BaseProject/
 │   ├── README.md               # Guide index
 │   ├── git_workflow.md         # Git operations and commits
 │   ├── secrets_management.md  # API key handling
+│   ├── code_style_guide.md    # Code style principles
+│   ├── project_setup.md       # Project initialization patterns
 │   ├── uv_usage.md            # Python UV package manager
 │   ├── testing_strategies.md  # Test patterns
 │   ├── docker_guide.md        # Containerization
 │   ├── ci_cd_patterns.md      # GitHub Actions
 │   ├── house_agents.md        # Claude subagent usage
 │   ├── pre_commit_hooks/      # Git hooks for code quality
-│   └── ... (16 total guides)
-├── setup_new_project.sh        # Automated setup script
-├── NEW_PROJECT_SETUP.md        # Detailed setup guide
+│   ├── templates/             # Template files for common configs
+│   └── ... (18 total guides)
+├── NEW_PROJECT_SETUP.md        # Manual setup guide
 └── .gitignore                  # Comprehensive gitignore
 ```
 
