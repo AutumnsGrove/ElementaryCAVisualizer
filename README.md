@@ -8,7 +8,7 @@ A comprehensive project template with built-in Claude Code workflows, best pract
 
 **One-liner in Claude Code:**
 ```
-Clone https://github.com/AutumnsGrove/BaseProject to /tmp, copy (excluding .git and scripts) to ~/Projects/[ASK ME PROJECT NAME], customize CLAUDE.md and README with my project details [ASK ME: name, description, tech stack, API keys needed], init dependencies for my stack, create src/ and tests/ dirs, make secrets_template.json, generate smart TODOS.md, setup git with proper user config, optionally install pre-commit hooks [ASK ME], initial commit with BaseProject format, show summary and next steps
+Clone https://github.com/AutumnsGrove/BaseProject to /tmp, copy (excluding .git, scripts, and TemplateDocs/) to ~/Projects/[ASK ME PROJECT NAME], customize CLAUDE.md and README with my project details [ASK ME: name, description, tech stack, API keys needed], init dependencies for my stack, create src/ and tests/ dirs, make secrets_template.json, generate smart TODOS.md, setup git with proper user config, optionally install pre-commit hooks [ASK ME], initial commit with BaseProject format, show summary and next steps
 ```
 
 Claude will interactively:
@@ -23,7 +23,7 @@ Claude will interactively:
 
 ### Manual Setup
 
-For full control over the setup process, see [NEW_PROJECT_SETUP.md](NEW_PROJECT_SETUP.md) for detailed step-by-step instructions.
+For full control over the setup process, see [TemplateDocs/NEW_PROJECT_SETUP.md](TemplateDocs/NEW_PROJECT_SETUP.md) for detailed step-by-step instructions.
 
 ---
 
@@ -46,7 +46,9 @@ BaseProject/
 │   ├── pre_commit_hooks/      # Git hooks for code quality
 │   ├── templates/             # Template files for common configs
 │   └── ... (18 total guides)
-├── NEW_PROJECT_SETUP.md        # Manual setup guide
+├── TemplateDocs/               # Template-specific docs (NOT copied to new projects)
+│   ├── NEW_PROJECT_SETUP.md   # Manual setup guide
+│   └── QUICK_REFERENCE.md     # Quick reference card
 └── .gitignore                  # Comprehensive gitignore
 ```
 
