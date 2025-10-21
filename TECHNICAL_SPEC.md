@@ -46,6 +46,36 @@ Users should feel immersed in a living, breathing, generative artwork that respo
 
 ---
 
+## Implementation Decisions (2025-10-21)
+
+During the planning phase, the following key implementation decisions were made to strengthen the foundation and ensure optimal performance:
+
+### Canvas & Display
+- **Canvas Size**: Responsive container (90vw × 70vh) for flexible viewport
+- **Grid Resolution**: 1:1 pixel mapping (CA cells = canvas pixels) for sharp rendering
+- **Initial State**: Single CA layer running Rule 30 on application load
+
+### Architecture Choices
+- **Web Workers**: Implemented from Phase 1 for non-blocking CA computation
+- **Shader Approach**: Hybrid - simple shaders inline, complex shaders in separate .glsl files
+- **Generation Method**: Center-outward infinite generation (not traditional top-to-bottom)
+- **Dependencies**: p5.js v1.11.2 downloaded to lib/ directory (not loaded from CDN)
+
+### User Experience
+- **Color Palettes**: Full Synthwave/Vaporwave palette system in Phase 1 (not just black/white)
+- **Performance Monitoring**: FPS counter visible from Phase 1 for development and user feedback
+- **Storage Format**: Presets stored as `ca_visualizer:presets` array in LocalStorage with versioning
+- **Fonts**: Google Fonts (Orbitron, Rajdhani) for cyberpunk aesthetic
+
+### Testing Strategy
+- **Continuous Testing**: Testing tasks integrated into each phase (not just Phase 6)
+- **Browser Targets**: Chrome, Firefox, Safari (desktop + mobile)
+- **Performance Target**: 60 FPS across all features
+
+**Note:** These decisions resulted in an expanded Phase 1 scope, creating a stronger foundation but requiring more initial development time. See Implementation Phases below for detailed phase breakdowns.
+
+---
+
 ## System Architecture
 
 ### High-Level Architecture
@@ -641,7 +671,7 @@ ElementaryCAVisualizer/
 │   └── presets/               # Saved preset JSON files
 │
 └── lib/
-    └── p5.min.js              # p5.js library (or load from CDN)
+    └── p5.min.js              # p5.js library (download locally, not in git)
 ```
 
 ---
@@ -649,40 +679,65 @@ ElementaryCAVisualizer/
 ## Implementation Phases
 
 ### Phase 1: Foundation (Core CA + Basic Rendering)
-**Goal:** Get basic CA visualization working
+**Goal:** Get basic CA visualization working with infinite generation and full palette support
+
+**Note:** Phase 1 scope expanded (2025-10-21) to include Web Workers, full palettes, center-outward infinite generation, and FPS monitoring for a stronger foundation.
 
 **Tasks:**
 1. Set up p5.js project structure
-2. Implement single-layer CA engine
-   - Rule computation (all 256 rules)
-   - State management
-   - Toroidal wrapping
-3. Basic renderer
-   - Display CA as black/white grid
-   - Simple color mapping
-4. Basic controls
-   - Rule selector
-   - Play/pause
+   - Download p5.js v1.11.2 to lib/ directory
+   - Responsive canvas (90vw × 70vh)
+   - WebGL mode initialization
+2. Implement single-layer CA engine with Web Workers
+   - Rule computation (all 256 rules) with lookup table
+   - Center-outward infinite generation (not top-to-bottom)
+   - Toroidal wrapping for infinite grid
+   - State management with circular buffers
+   - Web Worker integration for non-blocking computation
+3. Renderer with full palette system
+   - 1:1 pixel mapping (CA cells = canvas pixels)
+   - Synthwave/Neon palette (hot pink, cyan, electric blue)
+   - Vaporwave Pastels palette (soft pinks, lavenders, light blues)
+   - Palette switching UI
+   - Basic vertex shader (inline)
+4. Basic controls with performance monitoring
+   - Rule selector (0-255)
+   - Play/pause toggle
    - Reset button
+   - Speed control slider
+   - Palette selector
+   - FPS counter display
 5. Initialize patterns
-   - Random noise
+   - Random noise with density control
    - Single center pixel
+6. Testing infrastructure
+   - Manual testing checklist
+   - Browser compatibility testing setup
+   - Performance profiling tools
 
-**Deliverable:** Working single-layer CA visualizer with basic controls
+**Deliverable:** Working single-layer CA visualizer with infinite generation, full palettes, Web Workers, and performance monitoring
 
 ### Phase 2: Multi-Layer System
 **Goal:** Support multiple concurrent CA layers with blending
 
+**Note:** Color palettes implemented in Phase 1. This phase focuses on multi-layer architecture.
+
 **Tasks:**
 1. Refactor CA engine for multiple instances
+   - CALayer class wrapper
+   - Web Worker pool or per-layer workers
 2. Layer management system
-   - Add/remove layers
-   - Per-layer configuration
-3. Implement blend modes
+   - Add/remove layers dynamically (3-5 layers)
+   - Per-layer configuration (rule, opacity, palette, blend mode)
+   - Layer ordering/z-index
+3. Implement WebGL blend modes
+   - Normal, Add, Multiply, Screen, Overlay
 4. Layer controls UI
-5. Basic color palettes
+   - Layer list with controls
+   - Per-layer enable/disable, opacity, blend mode, palette selection
+   - Solo/mute buttons
 
-**Deliverable:** Multi-layer CA system with basic color and blending
+**Deliverable:** Multi-layer CA system with full blending and per-layer control
 
 ### Phase 3: Effects Pipeline
 **Goal:** Add cyberpunk visual effects
@@ -699,34 +754,53 @@ ElementaryCAVisualizer/
 
 **Deliverable:** Full effects pipeline with real-time control
 
-### Phase 4: Infinite Generation
-**Goal:** Implement center-outward infinite generation
+### Phase 4: Viewport & Navigation
+**Goal:** Add pan/zoom exploration and viewport optimization
+
+**Note:** Basic infinite generation implemented in Phase 1. This phase adds navigation controls and optimizations.
 
 **Tasks:**
-1. Viewport system
-2. Pan/zoom camera
-3. Infinite grid with toroidal wrapping
-4. On-demand generation
-5. Buffer management
+1. Camera/viewport system
+   - Camera position tracking
+   - Viewport bounds calculation
+2. Pan/zoom controls
+   - Mouse drag and WASD panning
+   - Mouse wheel and pinch-to-zoom
+   - Touch support for mobile
+3. On-demand generation optimization
+   - Generate only visible viewport + buffer area
+   - Lazy computation for off-screen regions
+4. Advanced buffer management
+   - Viewport-aware buffer sizing
+   - Memory pooling
+5. Optional: LOD (Level of Detail) system
 
-**Deliverable:** Infinite explorable CA space
+**Deliverable:** Fully navigable infinite CA space with optimized rendering
 
 ### Phase 5: Advanced Controls & Presets
 **Goal:** Polish UX and add preset system
 
 **Tasks:**
 1. Complete UI implementation
-2. Keyboard shortcuts
+2. Keyboard shortcuts (Space, R, S, V, G, B, T, arrows, 1-5)
+   - Keyboard help overlay
 3. Preset system
-   - Built-in presets
-   - Save/load custom presets
+   - Built-in presets (Neon Dreams, Vaporwave Chill, Digital Rain, Glitch City, Minimal Techno)
+   - Save/load custom presets to LocalStorage (`ca_visualizer:presets` array)
+   - Preset import/export (JSON files)
+   - Preset versioning for compatibility
 4. Palette editor
+   - Custom color pickers
+   - Gradient builders
 5. Advanced initialization patterns
-   - User drawable
-   - Preset patterns
+   - User drawable canvas (click-and-drag, brush size, mirror mode)
+   - Preset patterns (Fibonacci, alternating, sequences)
 6. Performance optimization
+   - Profile and optimize shader code
+   - Reduce garbage collection
+   - Test on lower-end devices
 
-**Deliverable:** Polished, full-featured interface
+**Deliverable:** Polished, full-featured interface with comprehensive preset system
 
 ### Phase 6: Export & Final Polish
 **Goal:** Add export capabilities and final touches
@@ -929,7 +1003,11 @@ class CALayer {
 
 ---
 
-**Document Version:** 1.0.0
+**Document Version:** 1.1.0
 **Last Updated:** 2025-10-21
 **Author:** Claude (Sonnet 4.5)
-**Status:** Draft - Ready for Implementation
+**Status:** Planning Complete - Implementation Decisions Finalized
+
+**Changelog:**
+- v1.1.0 (2025-10-21): Added Implementation Decisions section, expanded Phase 1 scope, updated all phases to reflect architecture decisions
+- v1.0.0 (2025-10-21): Initial comprehensive technical specification

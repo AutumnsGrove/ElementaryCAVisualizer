@@ -24,7 +24,7 @@ Experience the mesmerizing beauty of elementary cellular automata through a lens
 
 ## 🎮 Quick Start
 
-### Run Locally
+### Setup
 
 1. Clone the repository:
    ```bash
@@ -32,7 +32,22 @@ Experience the mesmerizing beauty of elementary cellular automata through a lens
    cd ElementaryCAVisualizer
    ```
 
-2. Open `index.html` in your browser:
+2. Download p5.js library:
+   ```bash
+   # Download p5.js v1.11.2 to lib directory
+   mkdir -p lib
+   curl -L -o lib/p5.min.js https://cdn.jsdelivr.net/npm/p5@1.11.2/lib/p5.min.js
+   ```
+
+   **Note:** The p5.js library is not included in the repository to keep it lightweight. You must download it manually before running the visualizer.
+
+   **Alternative download methods:**
+   - **wget:** `wget https://cdn.jsdelivr.net/npm/p5@1.11.2/lib/p5.min.js -O lib/p5.min.js`
+   - **Browser:** Download from [p5.js CDN](https://cdn.jsdelivr.net/npm/p5@1.11.2/lib/p5.min.js) and save to `lib/p5.min.js`
+
+### Run Locally
+
+1. Open `index.html` in your browser:
    ```bash
    # macOS
    open index.html
@@ -45,7 +60,7 @@ Experience the mesmerizing beauty of elementary cellular automata through a lens
    # Then visit http://localhost:8000
    ```
 
-3. Start exploring! Use keyboard shortcuts to control the visualizer.
+2. Start exploring! Use keyboard shortcuts to control the visualizer.
 
 ### Keyboard Controls
 
@@ -234,7 +249,8 @@ Track progress in `TODOS.md`.
 ## 🤝 Development
 
 ### Prerequisites
-- Modern web browser (Chrome, Firefox, Safari)
+- Modern web browser (Chrome, Firefox, Safari) with WebGL support
+- **p5.js library** (must be downloaded separately, see Setup above)
 - No build tools required (vanilla HTML/CSS/JS for now)
 - Optional: Local development server for testing
 
