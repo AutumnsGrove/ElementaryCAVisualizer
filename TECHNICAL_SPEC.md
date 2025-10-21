@@ -68,14 +68,14 @@ Users should feel immersed in a living, breathing, generative artwork that respo
 ┌─────────────────────────────────────────────────┐
 │              Core Engine Layer                  │
 │                                                 │
-│  ┌──────────────────┐    ┌──────────────────┐  │
-│  │  CA Engine       │    │  Renderer        │  │
-│  │  (Web Workers)   │───▶│  (p5.js/WebGL)   │  │
-│  │                  │    │                  │  │
-│  │ - Rule compute   │    │ - Multi-pass     │  │
-│  │ - Multi-layer    │    │ - Layer blend    │  │
-│  │ - Buffer mgmt    │    │ - Shader FX      │  │
-│  └──────────────────┘    └──────────────────┘  │
+│  ┌──────────────────┐    ┌──────────────────┐   │
+│  │  CA Engine       │    │  Renderer        │   │
+│  │  (Web Workers)   │───▶│  (p5.js/WebGL)   │   │
+│  │                  │    │                  │   │
+│  │ - Rule compute   │    │ - Multi-pass     │   │
+│  │ - Multi-layer    │    │ - Layer blend    │   │
+│  │ - Buffer mgmt    │    │ - Shader FX      │   │
+│  └──────────────────┘    └──────────────────┘   │
 └─────────────────────────────────────────────────┘
 ```
 
