@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Elementary Cellular Automata Visualizer with cyberpunk aesthetics">
+    <meta name="author" content="Claude (Sonnet 4.5)">
+    <title>Elementary CA Visualizer - Cyberpunk Edition</title>
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="styles/main.css">
+
+    <!-- p5.js from CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.2/p5.min.js"></script>
+</head>
+<body>
+    <div id="app-container">
+        <header>
+            <h1>Elementary CA Visualizer</h1>
+            <p class="subtitle">Cyberpunk Cellular Automata Explorer</p>
+        </header>
+
+        <main id="canvas-container">
+            <!-- p5.js canvas will be inserted here -->
+        </main>
+
+        <footer>
+            <p>Press <kbd>Space</kbd> to play/pause | <kbd>R</kbd> to randomize | <kbd>S</kbd> for screenshot</p>
+        </footer>
+    </div>
+
+    <!-- JavaScript modules - load in order -->
+    <script src="src/utils.js"></script>
+    <script src="src/main.js"></script>
+
+    <!-- TODO: Add additional modules as they're created -->
+    <!-- <script src="src/ca-engine.js"></script> -->
+    <!-- <script src="src/renderer.js"></script> -->
+    <!-- <script src="src/controls.js"></script> -->
+    <!-- <script src="src/presets.js"></script> -->
+    <!-- <script src="src/export.js"></script> -->
+</body>
+</html>

@@ -1,0 +1,244 @@
+/**
+ * Elementary CA Visualizer - Main Stylesheet
+ *
+ * Cyberpunk-themed styling for the application.
+ *
+ * @author Claude (Sonnet 4.5)
+ * @version 1.0.0
+ */
+
+/* ============================================================================
+   GLOBAL STYLES
+   ============================================================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* Cyberpunk color palette */
+    --bg-primary: #0a0a0a;
+    --bg-secondary: #1a1a2e;
+    --bg-tertiary: #16213e;
+
+    --accent-neon-pink: #ff00ff;
+    --accent-neon-cyan: #00ffff;
+    --accent-neon-purple: #ff00aa;
+    --accent-neon-blue: #0080ff;
+
+    --text-primary: #ffffff;
+    --text-secondary: #cccccc;
+    --text-tertiary: #888888;
+
+    /* Fonts */
+    --font-main: 'Courier New', Courier, monospace;
+    --font-display: 'Arial', sans-serif;
+
+    /* Spacing */
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+
+    /* Effects */
+    --glow-intensity: 0 0 10px;
+}
+
+body {
+    font-family: var(--font-main);
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    overflow-x: hidden;
+    line-height: 1.6;
+}
+
+/* ============================================================================
+   LAYOUT
+   ============================================================================ */
+
+#app-container {
+    width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-lg);
+}
+
+/* ============================================================================
+   HEADER
+   ============================================================================ */
+
+header {
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+}
+
+header h1 {
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--accent-neon-pink);
+    text-transform: uppercase;
+    text-shadow: var(--glow-intensity) var(--accent-neon-pink);
+    margin-bottom: var(--spacing-sm);
+}
+
+header .subtitle {
+    font-size: 1rem;
+    color: var(--accent-neon-cyan);
+    text-shadow: var(--glow-intensity) var(--accent-neon-cyan);
+    letter-spacing: 1px;
+}
+
+/* ============================================================================
+   CANVAS CONTAINER
+   ============================================================================ */
+
+main#canvas-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--accent-neon-purple);
+    border-radius: 4px;
+    box-shadow: 0 0 20px rgba(255, 0, 170, 0.3);
+    background-color: var(--bg-secondary);
+    padding: var(--spacing-sm);
+    position: relative;
+    overflow: hidden;
+}
+
+main#canvas-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        transparent 0%,
+        rgba(255, 0, 255, 0.02) 50%,
+        transparent 100%
+    );
+    pointer-events: none;
+    animation: scanline 8s linear infinite;
+}
+
+@keyframes scanline {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100%); }
+}
+
+/* ============================================================================
+   FOOTER
+   ============================================================================ */
+
+footer {
+    text-align: center;
+    margin-top: var(--spacing-lg);
+    padding: var(--spacing-md);
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+footer kbd {
+    display: inline-block;
+    padding: 2px 6px;
+    margin: 0 2px;
+    background-color: var(--bg-tertiary);
+    border: 1px solid var(--accent-neon-cyan);
+    border-radius: 3px;
+    font-family: var(--font-main);
+    font-size: 0.875rem;
+    color: var(--accent-neon-cyan);
+    box-shadow: 0 0 5px rgba(0, 255, 255, 0.2);
+}
+
+/* ============================================================================
+   CYBERPUNK EFFECTS
+   ============================================================================ */
+
+/* Glitch effect on hover - can be applied to interactive elements */
+.glitch-effect:hover {
+    animation: glitch 0.3s linear;
+}
+
+@keyframes glitch {
+    0%, 100% {
+        transform: translate(0);
+    }
+    20% {
+        transform: translate(-2px, 2px);
+    }
+    40% {
+        transform: translate(-2px, -2px);
+    }
+    60% {
+        transform: translate(2px, 2px);
+    }
+    80% {
+        transform: translate(2px, -2px);
+    }
+}
+
+/* Neon text glow */
+.neon-text {
+    color: var(--accent-neon-pink);
+    text-shadow:
+        0 0 5px var(--accent-neon-pink),
+        0 0 10px var(--accent-neon-pink),
+        0 0 20px var(--accent-neon-pink);
+}
+
+/* ============================================================================
+   RESPONSIVE DESIGN
+   ============================================================================ */
+
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 1.8rem;
+    }
+
+    header .subtitle {
+        font-size: 0.875rem;
+    }
+
+    #app-container {
+        padding: var(--spacing-md);
+    }
+
+    footer {
+        font-size: 0.75rem;
+    }
+
+    footer kbd {
+        font-size: 0.75rem;
+        padding: 1px 4px;
+    }
+}
+
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 1.5rem;
+    }
+
+    #app-container {
+        padding: var(--spacing-sm);
+    }
+}
+
+/* ============================================================================
+   TODO: Control panel styles (to be added when controls.js is implemented)
+   ============================================================================ */
+
+/* TODO: Preset panel styles */
+/* TODO: Export panel styles */
+/* TODO: Loading indicators */
+/* TODO: Error/success notifications */
+/* TODO: Modal/dialog styles */
