@@ -13,28 +13,14 @@
 // ============================================================================
 
 let canvas;
-let isPaused = false;
-let currentFrame = 0;
-
-// TODO: Initialize CA engine
 let caEngine;
-
-// TODO: Initialize renderer
 let renderer;
-
-// TODO: Initialize control system
+let paletteManager;
 let controlManager;
+let perfMonitor;
 
-// TODO: Layer management
-let layers = [];
-
-// Default configuration
-const CONFIG = {
-    canvasWidth: 800,
-    canvasHeight: 600,
-    backgroundColor: '#0a0a0a',
-    targetFPS: 60
-};
+let currentSpeed = 1.0;
+let frameCounter = 0;
 
 // ============================================================================
 // P5.JS SETUP
@@ -44,26 +30,65 @@ const CONFIG = {
  * p5.js setup function - runs once at startup
  */
 function setup() {
-    // Create canvas with WebGL mode for shader support
-    canvas = createCanvas(CONFIG.canvasWidth, CONFIG.canvasHeight, WEBGL);
+    // Calculate responsive canvas size (90vw × 70vh)
+    const canvasWidth = Math.floor(windowWidth * 0.9);
+    const canvasHeight = Math.floor(windowHeight * 0.7);
+
+    // Create canvas with WebGL mode
+    canvas = createCanvas(canvasWidth, canvasHeight, WEBGL);
     canvas.parent('canvas-container');
+    frameRate(60);
 
-    frameRate(CONFIG.targetFPS);
+    // Initialize palette manager
+    paletteManager = new PaletteManager('synthwave');
 
-    // TODO: Initialize CA engine
-    // caEngine = new CAEngine(30, width, height);
+    // Initialize CA engine with Rule 30
+    caEngine = new CAEngine(30, canvasWidth, canvasHeight);
+    caEngine.setInitialCondition('single'); // Single center pixel
 
-    // TODO: Initialize renderer
-    // renderer = new Renderer(this);
+    // Initialize renderer
+    renderer = new Renderer(this);
+    renderer.setup();
+    renderer.setPalette(paletteManager.getCurrentPalette());
 
-    // TODO: Initialize controls
-    // controlManager = new ControlManager();
+    // Initialize performance monitor
+    perfMonitor = new PerformanceMonitor();
+    perfMonitor.setVisible(true);
 
-    // TODO: Load default preset or create initial layers
-    // layers.push(new CALayer({ rule: 30, color: '#FF00FF' }));
+    // Initialize controls
+    controlManager = new ControlManager();
+    controlManager.setupUI();
+
+    // Wire up control callbacks
+    controlManager.setCallbacks({
+        onRuleChange: (rule) => {
+            caEngine.setRule(rule);
+            caEngine.setInitialCondition('single');
+            console.log(`Rule changed to ${rule}`);
+        },
+        onPlayPause: (isPaused) => {
+            console.log(isPaused ? 'Paused' : 'Playing');
+        },
+        onReset: () => {
+            caEngine.reset();
+            caEngine.setInitialCondition('single');
+            console.log('CA reset with new seed');
+        },
+        onSpeedChange: (speed) => {
+            currentSpeed = speed;
+            console.log(`Speed: ${speed.toFixed(1)}x`);
+        },
+        onPaletteChange: (paletteName) => {
+            paletteManager.setPalette(paletteName);
+            renderer.setPalette(paletteManager.getCurrentPalette());
+            console.log(`Palette changed to ${paletteName}`);
+        }
+    });
 
     console.log('Elementary CA Visualizer initialized');
     console.log(`Canvas: ${width}x${height}`);
+    console.log(`Rule: 30 (chaotic pattern)`);
+    console.log(`Palette: Synthwave`);
 }
 
 // ============================================================================
@@ -74,31 +99,40 @@ function setup() {
  * p5.js draw function - runs every frame
  */
 function draw() {
-    // Clear background
-    background(CONFIG.backgroundColor);
+    // Update performance monitor
+    perfMonitor.update();
 
-    // TODO: Update CA layers (if not paused)
-    if (!isPaused) {
-        // layers.forEach(layer => layer.update());
-        currentFrame++;
+    // Get current control state
+    const controlState = controlManager.getState();
+
+    // Update CA based on speed (skip frames if speed < 1.0, run multiple steps if speed > 1.0)
+    if (!controlState.isPaused) {
+        const stepsToRun = Math.max(1, Math.round(currentSpeed));
+
+        if (currentSpeed >= 1.0) {
+            // Run multiple steps for speeds > 1.0x
+            for (let i = 0; i < stepsToRun; i++) {
+                caEngine.step();
+                frameCounter++;
+            }
+        } else {
+            // Run step only every N frames for speeds < 1.0x
+            if (frameCounter % Math.round(1 / currentSpeed) === 0) {
+                caEngine.step();
+            }
+            frameCounter++;
+        }
     }
 
-    // TODO: Render all layers
-    // renderer.render(layers, getEffectParams());
+    // Get CA state
+    const caState = caEngine.getState();
+    const palette = paletteManager.getCurrentPalette();
 
-    // TODO: Apply post-processing effects
-    // renderer.applyPostProcessing(getEffectParams());
+    // Render CA
+    renderer.render(caState, width, height, palette);
 
-    // Temporary: Draw placeholder text
-    fill(255, 0, 255);
-    textAlign(CENTER, CENTER);
-    textSize(32);
-    text('Elementary CA Visualizer', 0, -50);
-
-    textSize(16);
-    fill(0, 255, 255);
-    text('Press SPACE to start', 0, 0);
-    text(`Frame: ${currentFrame} | FPS: ${floor(frameRate())}`, 0, 50);
+    // Render performance overlay (on top of everything)
+    perfMonitor.render(this);
 }
 
 // ============================================================================
@@ -112,38 +146,62 @@ function keyPressed() {
     switch(key.toLowerCase()) {
         case ' ':
             // Play/Pause toggle
-            isPaused = !isPaused;
-            console.log(isPaused ? 'Paused' : 'Playing');
+            const currentState = controlManager.getState();
+            controlManager.setState({ isPaused: !currentState.isPaused });
             break;
 
         case 'r':
-            // TODO: Randomize rules
-            console.log('Randomize rules (not implemented)');
+            // Randomize rule
+            const randomRule = Math.floor(Math.random() * 256);
+            controlManager.setState({ rule: randomRule });
+            caEngine.setRule(randomRule);
+            caEngine.reset();
+            caEngine.setInitialCondition('single');
+            console.log(`Random rule: ${randomRule}`);
+            break;
+
+        case 'p':
+            // Toggle performance monitor
+            perfMonitor.toggle();
             break;
 
         case 's':
-            // TODO: Export screenshot
-            console.log('Screenshot (not implemented)');
+            // Screenshot (Phase 6)
+            console.log('Screenshot (not yet implemented - Phase 6)');
             break;
 
         case 'v':
-            // TODO: Toggle video recording
-            console.log('Video recording (not implemented)');
+            // Video recording (Phase 6)
+            console.log('Video recording (not yet implemented - Phase 6)');
             break;
 
         case 'g':
-            // TODO: Toggle glitch effect
-            console.log('Toggle glitch (not implemented)');
+            // Glitch effect (Phase 3)
+            console.log('Glitch effect (not yet implemented - Phase 3)');
             break;
 
         case 'b':
-            // TODO: Toggle bloom effect
-            console.log('Toggle bloom (not implemented)');
+            // Bloom effect (Phase 3)
+            console.log('Bloom effect (not yet implemented - Phase 3)');
             break;
 
         case 't':
-            // TODO: Toggle temporal trails
-            console.log('Toggle trails (not implemented)');
+            // Temporal trails (Phase 3)
+            console.log('Temporal trails (not yet implemented - Phase 3)');
+            break;
+
+        case '1':
+            // Switch to Synthwave palette
+            controlManager.setState({ palette: 'synthwave' });
+            paletteManager.setPalette('synthwave');
+            renderer.setPalette(paletteManager.getCurrentPalette());
+            break;
+
+        case '2':
+            // Switch to Vaporwave palette
+            controlManager.setState({ palette: 'vaporwave' });
+            paletteManager.setPalette('vaporwave');
+            renderer.setPalette(paletteManager.getCurrentPalette());
             break;
 
         default:
@@ -153,29 +211,24 @@ function keyPressed() {
     return false; // Prevent default behavior
 }
 
-// ============================================================================
-// HELPER FUNCTIONS
-// ============================================================================
-
-/**
- * Get current effect parameters
- * TODO: Move to control manager
- */
-function getEffectParams() {
-    return {
-        glitch: 0.0,
-        bloom: 0.0,
-        chromatic: 0.0,
-        scanLines: 0.0,
-        trails: 0.0,
-        parallax: 0.0
-    };
-}
-
 /**
  * Window resize handler
  */
 function windowResized() {
-    // TODO: Handle responsive canvas resizing
-    // resizeCanvas(windowWidth, windowHeight);
+    // Calculate new responsive canvas size
+    const newWidth = Math.floor(windowWidth * 0.9);
+    const newHeight = Math.floor(windowHeight * 0.7);
+
+    // Resize canvas
+    resizeCanvas(newWidth, newHeight);
+
+    // Reinitialize CA engine with new dimensions
+    caEngine = new CAEngine(controlManager.getState().rule, newWidth, newHeight);
+    caEngine.setInitialCondition('single');
+
+    // Reinitialize renderer
+    renderer.setup();
+    renderer.setPalette(paletteManager.getCurrentPalette());
+
+    console.log(`Canvas resized: ${newWidth}x${newHeight}`);
 }
