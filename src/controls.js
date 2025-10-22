@@ -114,6 +114,12 @@ class ControlManager {
 
                 .controls-cyberpunk input[type="number"] {
                     width: 60px;
+                    cursor: text;
+                    pointer-events: auto;
+                    user-select: text;
+                    -webkit-user-select: text;
+                    -moz-user-select: text;
+                    -ms-user-select: text;
                 }
 
                 .controls-cyberpunk input[type="range"] {
@@ -194,6 +200,18 @@ class ControlManager {
             // Ensure field is clickable and focusable
             ruleInput.style.pointerEvents = 'auto';
             ruleInput.style.userSelect = 'text';
+
+            // Explicitly handle click to ensure focus
+            ruleInput.addEventListener('click', (e) => {
+                e.stopPropagation();
+                ruleInput.focus();
+                ruleInput.select(); // Select all text on click for easy editing
+            });
+
+            // Prevent parent from intercepting events
+            ruleInput.addEventListener('mousedown', (e) => {
+                e.stopPropagation();
+            });
         }
 
         // Play/Pause button
