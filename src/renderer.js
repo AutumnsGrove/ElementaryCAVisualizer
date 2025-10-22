@@ -81,6 +81,9 @@ class Renderer {
         this.canvasWidth = 0;
         this.canvasHeight = 0;
 
+        // Cell scale factor (how many pixels per CA cell)
+        this.cellScale = 4;  // Default: 4x zoom for visible patterns
+
         // Graphics buffers
         this.graphics = null;        // Off-screen graphics buffer for CA rendering
         this.shader = null;          // Custom shader (for future use)
@@ -95,7 +98,7 @@ class Renderer {
         // Performance tracking
         this.lastRenderTime = 0;
 
-        console.log('[Renderer] Initialized');
+        console.log('[Renderer] Initialized with cellScale=4');
     }
 
     /**
@@ -157,6 +160,39 @@ class Renderer {
             width: this.canvasWidth,
             height: this.canvasHeight
         };
+    }
+
+    /**
+     * Get effective CA grid dimensions based on cell scale
+     * This is the size the CA engine should use for proper scaling
+     * @returns {Object} { width: number, height: number }
+     */
+    getCAGridDimensions() {
+        return {
+            width: Math.floor(this.canvasWidth / this.cellScale),
+            height: Math.floor(this.canvasHeight / this.cellScale)
+        };
+    }
+
+    /**
+     * Set cell scale factor (zoom level)
+     * @param {number} scale - Scale factor (1, 2, 4, 8, etc.)
+     */
+    setCellScale(scale) {
+        if (scale < 1 || scale > 16) {
+            console.warn(`[Renderer] Invalid cellScale ${scale}, must be 1-16`);
+            return;
+        }
+        this.cellScale = scale;
+        console.log(`[Renderer] Cell scale set to ${scale}x (CA grid: ${Math.floor(this.canvasWidth/scale)}×${Math.floor(this.canvasHeight/scale)})`);
+    }
+
+    /**
+     * Get current cell scale
+     * @returns {number} Current cell scale factor
+     */
+    getCellScale() {
+        return this.cellScale;
     }
 
     /**

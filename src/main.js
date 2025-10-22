@@ -42,14 +42,16 @@ function setup() {
     // Initialize palette manager
     paletteManager = new PaletteManager('synthwave');
 
-    // Initialize CA engine with Rule 30
-    caEngine = new CAEngine(30, canvasWidth, canvasHeight);
-    caEngine.setInitialCondition('single'); // Single center pixel
-
-    // Initialize renderer
+    // Initialize renderer first (we need it to calculate scaled grid dimensions)
     renderer = new Renderer(this);
     renderer.setup();
     renderer.setPalette(paletteManager.getCurrentPalette());
+
+    // Initialize CA engine with scaled grid dimensions (not full canvas size)
+    // This allows cells to be visible as 4x4 pixel blocks instead of 1x1
+    const gridDims = renderer.getCAGridDimensions();
+    caEngine = new CAEngine(30, gridDims.width, gridDims.height);
+    caEngine.setInitialCondition('single'); // Single center pixel
 
     // Initialize performance monitor
     perfMonitor = new PerformanceMonitor();
@@ -82,6 +84,21 @@ function setup() {
             paletteManager.setPalette(paletteName);
             renderer.setPalette(paletteManager.getCurrentPalette());
             console.log(`Palette changed to ${paletteName}`);
+        },
+        onZoomChange: (cellScale) => {
+            // Update renderer zoom level
+            renderer.setCellScale(cellScale);
+
+            // Reinitialize CA engine with new grid dimensions
+            const gridDims = renderer.getCAGridDimensions();
+            caEngine = new CAEngine(controlManager.getState().rule, gridDims.width, gridDims.height);
+            caEngine.setInitialCondition('single');
+
+            console.log(`Zoom changed to ${cellScale}x (CA grid: ${gridDims.width}x${gridDims.height})`);
+        },
+        onFPSToggle: (showFPS) => {
+            perfMonitor.setVisible(showFPS);
+            console.log(`FPS meter ${showFPS ? 'enabled' : 'disabled'}`);
         }
     });
 
@@ -124,12 +141,13 @@ function draw() {
         }
     }
 
-    // Get CA state
+    // Get CA state and grid dimensions
     const caState = caEngine.getState();
     const palette = paletteManager.getCurrentPalette();
+    const gridDims = renderer.getCAGridDimensions();
 
-    // Render CA
-    renderer.render(caState, width, height, palette);
+    // Render CA (pass grid dimensions, not canvas dimensions)
+    renderer.render(caState, gridDims.width, gridDims.height, palette);
 
     // Render performance overlay (on top of everything)
     perfMonitor.render(this);
@@ -161,7 +179,9 @@ function keyPressed() {
             break;
 
         case 'p':
-            // Toggle performance monitor
+            // Toggle performance monitor (also update control state)
+            const currentFPSState = controlManager.getState().showFPS;
+            controlManager.setState({ showFPS: !currentFPSState });
             perfMonitor.toggle();
             break;
 
@@ -222,13 +242,14 @@ function windowResized() {
     // Resize canvas
     resizeCanvas(newWidth, newHeight);
 
-    // Reinitialize CA engine with new dimensions
-    caEngine = new CAEngine(controlManager.getState().rule, newWidth, newHeight);
-    caEngine.setInitialCondition('single');
-
-    // Reinitialize renderer
+    // Reinitialize renderer (must be before CA engine for grid dimensions)
     renderer.setup();
     renderer.setPalette(paletteManager.getCurrentPalette());
 
-    console.log(`Canvas resized: ${newWidth}x${newHeight}`);
+    // Reinitialize CA engine with scaled grid dimensions
+    const gridDims = renderer.getCAGridDimensions();
+    caEngine = new CAEngine(controlManager.getState().rule, gridDims.width, gridDims.height);
+    caEngine.setInitialCondition('single');
+
+    console.log(`Canvas resized: ${newWidth}x${newHeight} (CA grid: ${gridDims.width}x${gridDims.height} at ${renderer.getCellScale()}x zoom)`);
 }

@@ -20,7 +20,9 @@ class ControlManager {
             rule: 30,
             isPaused: false,
             speed: 1.0,
-            palette: 'synthwave'
+            palette: 'synthwave',
+            cellScale: 4,
+            showFPS: true
         };
 
         this.callbacks = {
@@ -28,7 +30,9 @@ class ControlManager {
             onPlayPause: null,
             onReset: null,
             onSpeedChange: null,
-            onPaletteChange: null
+            onPaletteChange: null,
+            onZoomChange: null,
+            onFPSToggle: null
         };
 
         // Debounce timers
@@ -48,6 +52,7 @@ class ControlManager {
                 <div class="control-group">
                     <button id="play-pause-btn">${this.state.isPaused ? '▶ Play' : '⏸ Pause'}</button>
                     <button id="reset-btn">🔄 Reset</button>
+                    <button id="fps-toggle-btn">${this.state.showFPS ? '👁 FPS' : '👁 FPS (off)'}</button>
                 </div>
                 <div class="control-group">
                     <label for="speed-slider">Speed:</label>
@@ -59,6 +64,15 @@ class ControlManager {
                     <select id="palette-select">
                         <option value="synthwave" ${this.state.palette === 'synthwave' ? 'selected' : ''}>Synthwave</option>
                         <option value="vaporwave" ${this.state.palette === 'vaporwave' ? 'selected' : ''}>Vaporwave</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label for="zoom-select">Zoom:</label>
+                    <select id="zoom-select">
+                        <option value="1" ${this.state.cellScale === 1 ? 'selected' : ''}>1x</option>
+                        <option value="2" ${this.state.cellScale === 2 ? 'selected' : ''}>2x</option>
+                        <option value="4" ${this.state.cellScale === 4 ? 'selected' : ''}>4x</option>
+                        <option value="8" ${this.state.cellScale === 8 ? 'selected' : ''}>8x</option>
                     </select>
                 </div>
             </div>
@@ -202,6 +216,18 @@ class ControlManager {
             });
         }
 
+        // FPS toggle button
+        const fpsToggleBtn = document.getElementById('fps-toggle-btn');
+        if (fpsToggleBtn) {
+            fpsToggleBtn.addEventListener('click', () => {
+                this.state.showFPS = !this.state.showFPS;
+                fpsToggleBtn.innerHTML = this.state.showFPS ? '👁 FPS' : '👁 FPS (off)';
+                if (this.callbacks.onFPSToggle) {
+                    this.callbacks.onFPSToggle(this.state.showFPS);
+                }
+            });
+        }
+
         // Speed slider with debounce
         const speedSlider = document.getElementById('speed-slider');
         const speedValue = document.getElementById('speed-value');
@@ -225,6 +251,18 @@ class ControlManager {
                 this.state.palette = e.target.value;
                 if (this.callbacks.onPaletteChange) {
                     this.callbacks.onPaletteChange(e.target.value);
+                }
+            });
+        }
+
+        // Zoom selector
+        const zoomSelect = document.getElementById('zoom-select');
+        if (zoomSelect) {
+            zoomSelect.addEventListener('change', (e) => {
+                const value = parseInt(e.target.value, 10);
+                this.state.cellScale = value;
+                if (this.callbacks.onZoomChange) {
+                    this.callbacks.onZoomChange(value);
                 }
             });
         }
@@ -254,6 +292,11 @@ class ControlManager {
             playPauseBtn.innerHTML = this.state.isPaused ? '▶ Play' : '⏸ Pause';
         }
 
+        const fpsToggleBtn = document.getElementById('fps-toggle-btn');
+        if (fpsToggleBtn) {
+            fpsToggleBtn.innerHTML = this.state.showFPS ? '👁 FPS' : '👁 FPS (off)';
+        }
+
         const speedSlider = document.getElementById('speed-slider');
         const speedValue = document.getElementById('speed-value');
         if (speedSlider) speedSlider.value = this.state.speed;
@@ -261,6 +304,9 @@ class ControlManager {
 
         const paletteSelect = document.getElementById('palette-select');
         if (paletteSelect) paletteSelect.value = this.state.palette;
+
+        const zoomSelect = document.getElementById('zoom-select');
+        if (zoomSelect) zoomSelect.value = this.state.cellScale;
     }
 
     /**
