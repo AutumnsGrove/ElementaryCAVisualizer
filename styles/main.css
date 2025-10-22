@@ -74,8 +74,23 @@ body {
    ============================================================================ */
 
 header {
-    text-align: center;
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--spacing-lg);
     margin-bottom: var(--spacing-lg);
+}
+
+header .header-left {
+    flex: 0 0 auto;
+}
+
+header .header-right {
+    flex: 1 1 auto;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
 }
 
 header h1 {
@@ -91,8 +106,8 @@ header h1 {
 
 header .subtitle {
     font-size: 1rem;
-    color: var(--accent-neon-cyan);
-    text-shadow: var(--glow-intensity) var(--accent-neon-cyan);
+    color: #00b8b8;
+    text-shadow: var(--glow-intensity) #00b8b8;
     letter-spacing: 1px;
 }
 
@@ -202,6 +217,21 @@ footer kbd {
    ============================================================================ */
 
 @media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        align-items: center;
+        gap: var(--spacing-md);
+    }
+
+    header .header-left {
+        text-align: center;
+    }
+
+    header .header-right {
+        width: 100%;
+        justify-content: center;
+    }
+
     header h1 {
         font-size: 1.8rem;
     }

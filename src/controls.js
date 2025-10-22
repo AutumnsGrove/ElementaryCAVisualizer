@@ -76,25 +76,18 @@ class ControlManager {
 
             <style>
                 .controls-cyberpunk {
-                    position: fixed;
-                    bottom: 30px;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    background: rgba(0, 0, 0, 0.95);
-                    border: 2px solid #00b8b8;
-                    border-radius: 10px;
-                    padding: 15px 20px;
-                    box-shadow: 0 0 20px rgba(0, 184, 184, 0.5);
+                    background: rgba(0, 0, 0, 0.3);
+                    border: 1px solid #00b8b8;
+                    border-radius: 6px;
+                    padding: 10px 15px;
                     font-family: 'Courier New', monospace;
                     color: #00b8b8;
-                    z-index: 10000;
                     display: flex;
                     flex-wrap: wrap;
-                    gap: 15px;
+                    gap: 12px;
                     align-items: center;
-                    justify-content: center;
-                    pointer-events: auto;
-                    max-width: 95vw;
+                    justify-content: flex-end;
+                    margin-top: 10px;
                 }
 
                 .control-group {
@@ -104,7 +97,7 @@ class ControlManager {
                 }
 
                 .controls-cyberpunk label {
-                    font-size: 14px;
+                    font-size: 12px;
                     color: #00b8b8;
                 }
 
@@ -112,26 +105,30 @@ class ControlManager {
                 .controls-cyberpunk select {
                     background: rgba(255, 0, 255, 0.1);
                     border: 1px solid #ff00ff;
-                    border-radius: 5px;
+                    border-radius: 4px;
                     color: #00b8b8;
-                    padding: 5px 10px;
+                    padding: 4px 8px;
                     font-family: 'Courier New', monospace;
-                    font-size: 14px;
+                    font-size: 12px;
+                }
+
+                .controls-cyberpunk input[type="number"] {
+                    width: 60px;
                 }
 
                 .controls-cyberpunk input[type="range"] {
-                    width: 120px;
+                    width: 100px;
                     accent-color: #ff00ff;
                 }
 
                 .controls-cyberpunk button {
                     background: rgba(255, 0, 255, 0.2);
                     border: 1px solid #ff00ff;
-                    border-radius: 5px;
+                    border-radius: 4px;
                     color: #00b8b8;
-                    padding: 8px 16px;
+                    padding: 6px 12px;
                     font-family: 'Courier New', monospace;
-                    font-size: 14px;
+                    font-size: 12px;
                     cursor: pointer;
                     transition: all 0.3s;
                 }
@@ -142,16 +139,21 @@ class ControlManager {
                 }
 
                 .controls-cyberpunk #speed-value {
-                    min-width: 40px;
+                    min-width: 35px;
                     text-align: right;
                     font-weight: bold;
+                    font-size: 12px;
                 }
             </style>
         `;
 
-        // Inject into DOM
-        const container = document.getElementById('canvas-container') || document.body;
-        container.insertAdjacentHTML('beforeend', controlsHTML);
+        // Inject into header
+        const header = document.querySelector('header');
+        if (header) {
+            header.insertAdjacentHTML('beforeend', controlsHTML);
+        } else {
+            document.body.insertAdjacentHTML('beforeend', controlsHTML);
+        }
 
         // Attach event listeners
         this._attachEventListeners();
