@@ -69,17 +69,18 @@ class ControlManager {
                     bottom: 20px;
                     left: 50%;
                     transform: translateX(-50%);
-                    background: rgba(0, 0, 0, 0.85);
+                    background: rgba(0, 0, 0, 0.9);
                     border: 2px solid #00ffff;
                     border-radius: 10px;
                     padding: 20px;
                     box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
                     font-family: 'Courier New', monospace;
                     color: #00ffff;
-                    z-index: 1000;
+                    z-index: 10000;
                     display: flex;
                     gap: 20px;
                     align-items: center;
+                    pointer-events: auto;
                 }
 
                 .control-group {
@@ -150,9 +151,10 @@ class ControlManager {
         // Rule input with debounce
         const ruleInput = document.getElementById('rule-input');
         if (ruleInput) {
+            // Allow typing in the input field
             ruleInput.addEventListener('input', (e) => {
                 const value = parseInt(e.target.value, 10);
-                if (value >= 0 && value <= 255) {
+                if (!isNaN(value) && value >= 0 && value <= 255) {
                     this._debounce('rule', () => {
                         this.state.rule = value;
                         if (this.callbacks.onRuleChange) {
@@ -161,6 +163,21 @@ class ControlManager {
                     }, 500);
                 }
             });
+
+            // Also handle 'change' event for when user finishes typing
+            ruleInput.addEventListener('change', (e) => {
+                const value = parseInt(e.target.value, 10);
+                if (!isNaN(value) && value >= 0 && value <= 255) {
+                    this.state.rule = value;
+                    if (this.callbacks.onRuleChange) {
+                        this.callbacks.onRuleChange(value);
+                    }
+                }
+            });
+
+            // Ensure field is clickable and focusable
+            ruleInput.style.pointerEvents = 'auto';
+            ruleInput.style.userSelect = 'text';
         }
 
         // Play/Pause button
