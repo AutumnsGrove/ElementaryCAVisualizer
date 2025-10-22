@@ -19,6 +19,41 @@ Based on planning session, Phase 1 scope has been expanded to include:
 
 ## Current Phase: Phase 1 - Foundation
 
+### Phase 1 Polish (Immediate - User Testing Feedback)
+**Priority:** HIGH - Address UX issues from browser testing
+
+- [ ] **Fix control panel visibility issue**
+  - Controls still not visible/accessible in browser
+  - Investigate positioning, viewport overlap, or responsive issues
+  - Ensure controls visible on all screen sizes
+
+- [ ] **Redesign FPS toggle UX**
+  - Remove FPS button from main control bar
+  - Make FPS meter itself clickable to hide
+  - Add small "FPS" button in top-right corner when meter is hidden
+  - Click top-right button to show meter again
+  - Better UX: less clutter, more intuitive
+
+- [ ] **Tone down bright color intensity**
+  - Current cyan/teal (#00ffff) is too bright/eye-searing
+  - Reduce saturation or brightness of synthwave palette
+  - Test less intense alternatives
+  - Maintain cyberpunk aesthetic but easier on eyes
+
+- [ ] **Expand palette collection**
+  - Add more color palette options beyond Synthwave/Vaporwave
+  - Suggested palettes:
+    - Matrix Green (classic digital rain aesthetic)
+    - Neon Purple/Orange (darker cyberpunk)
+    - Pastel Dream (softer vaporwave variant)
+    - Monochrome Blue (tron-style)
+    - Fire/Lava (warm gradient)
+    - Ocean/Ice (cool gradient)
+  - Each palette needs: alive, dead, and accent colors
+  - Update palette selector dropdown
+
+---
+
 ### Phase 1: Foundation (Core CA + Basic Rendering)
 **Goal:** Get basic CA visualization working with infinite generation and full palette support
 

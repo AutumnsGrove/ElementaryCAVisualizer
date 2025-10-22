@@ -95,10 +95,6 @@ function setup() {
             caEngine.setInitialCondition('single');
 
             console.log(`Zoom changed to ${cellScale}x (CA grid: ${gridDims.width}x${gridDims.height})`);
-        },
-        onFPSToggle: (showFPS) => {
-            perfMonitor.setVisible(showFPS);
-            console.log(`FPS meter ${showFPS ? 'enabled' : 'disabled'}`);
         }
     });
 
@@ -179,9 +175,7 @@ function keyPressed() {
             break;
 
         case 'p':
-            // Toggle performance monitor (also update control state)
-            const currentFPSState = controlManager.getState().showFPS;
-            controlManager.setState({ showFPS: !currentFPSState });
+            // Toggle performance monitor
             perfMonitor.toggle();
             break;
 

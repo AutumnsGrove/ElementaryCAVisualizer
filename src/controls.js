@@ -21,8 +21,7 @@ class ControlManager {
             isPaused: false,
             speed: 1.0,
             palette: 'synthwave',
-            cellScale: 4,
-            showFPS: true
+            cellScale: 4
         };
 
         this.callbacks = {
@@ -31,8 +30,7 @@ class ControlManager {
             onReset: null,
             onSpeedChange: null,
             onPaletteChange: null,
-            onZoomChange: null,
-            onFPSToggle: null
+            onZoomChange: null
         };
 
         // Debounce timers
@@ -52,7 +50,6 @@ class ControlManager {
                 <div class="control-group">
                     <button id="play-pause-btn">${this.state.isPaused ? '▶ Play' : '⏸ Pause'}</button>
                     <button id="reset-btn">🔄 Reset</button>
-                    <button id="fps-toggle-btn">${this.state.showFPS ? '👁 FPS' : '👁 FPS (off)'}</button>
                 </div>
                 <div class="control-group">
                     <label for="speed-slider">Speed:</label>
@@ -80,21 +77,24 @@ class ControlManager {
             <style>
                 .controls-cyberpunk {
                     position: fixed;
-                    bottom: 20px;
+                    bottom: 30px;
                     left: 50%;
                     transform: translateX(-50%);
-                    background: rgba(0, 0, 0, 0.9);
-                    border: 2px solid #00ffff;
+                    background: rgba(0, 0, 0, 0.95);
+                    border: 2px solid #00b8b8;
                     border-radius: 10px;
-                    padding: 20px;
-                    box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+                    padding: 15px 20px;
+                    box-shadow: 0 0 20px rgba(0, 184, 184, 0.5);
                     font-family: 'Courier New', monospace;
-                    color: #00ffff;
+                    color: #00b8b8;
                     z-index: 10000;
                     display: flex;
-                    gap: 20px;
+                    flex-wrap: wrap;
+                    gap: 15px;
                     align-items: center;
+                    justify-content: center;
                     pointer-events: auto;
+                    max-width: 95vw;
                 }
 
                 .control-group {
@@ -105,7 +105,7 @@ class ControlManager {
 
                 .controls-cyberpunk label {
                     font-size: 14px;
-                    color: #00ffff;
+                    color: #00b8b8;
                 }
 
                 .controls-cyberpunk input[type="number"],
@@ -113,7 +113,7 @@ class ControlManager {
                     background: rgba(255, 0, 255, 0.1);
                     border: 1px solid #ff00ff;
                     border-radius: 5px;
-                    color: #00ffff;
+                    color: #00b8b8;
                     padding: 5px 10px;
                     font-family: 'Courier New', monospace;
                     font-size: 14px;
@@ -128,7 +128,7 @@ class ControlManager {
                     background: rgba(255, 0, 255, 0.2);
                     border: 1px solid #ff00ff;
                     border-radius: 5px;
-                    color: #00ffff;
+                    color: #00b8b8;
                     padding: 8px 16px;
                     font-family: 'Courier New', monospace;
                     font-size: 14px;
@@ -216,18 +216,6 @@ class ControlManager {
             });
         }
 
-        // FPS toggle button
-        const fpsToggleBtn = document.getElementById('fps-toggle-btn');
-        if (fpsToggleBtn) {
-            fpsToggleBtn.addEventListener('click', () => {
-                this.state.showFPS = !this.state.showFPS;
-                fpsToggleBtn.innerHTML = this.state.showFPS ? '👁 FPS' : '👁 FPS (off)';
-                if (this.callbacks.onFPSToggle) {
-                    this.callbacks.onFPSToggle(this.state.showFPS);
-                }
-            });
-        }
-
         // Speed slider with debounce
         const speedSlider = document.getElementById('speed-slider');
         const speedValue = document.getElementById('speed-value');
@@ -290,11 +278,6 @@ class ControlManager {
         const playPauseBtn = document.getElementById('play-pause-btn');
         if (playPauseBtn) {
             playPauseBtn.innerHTML = this.state.isPaused ? '▶ Play' : '⏸ Pause';
-        }
-
-        const fpsToggleBtn = document.getElementById('fps-toggle-btn');
-        if (fpsToggleBtn) {
-            fpsToggleBtn.innerHTML = this.state.showFPS ? '👁 FPS' : '👁 FPS (off)';
         }
 
         const speedSlider = document.getElementById('speed-slider');

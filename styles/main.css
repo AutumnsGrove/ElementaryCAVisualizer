@@ -145,6 +145,7 @@ footer {
     padding: var(--spacing-md);
     font-size: 0.875rem;
     color: var(--text-secondary);
+    display: none; /* Hidden to avoid overlapping with control panel */
 }
 
 footer kbd {

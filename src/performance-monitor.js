@@ -36,13 +36,16 @@ class PerformanceMonitor {
         this.height = 100;
         this.padding = 10;
 
-        // Cyberpunk color scheme
+        // Create HTML elements for click handling
+        this._createToggleButton();
+
+        // Cyberpunk color scheme (toned down)
         this.colors = {
             excellent: '#00ff00',  // Green (>= 55 FPS)
             good: '#ffff00',        // Yellow (>= 30 FPS)
             poor: '#ff0066',        // Pink/Red (< 30 FPS)
             bg: 'rgba(10, 10, 20, 0.85)',
-            text: '#00ffff',        // Cyan
+            text: '#00b8b8',        // Cyan (toned down from #00ffff)
             accent: '#ff00ff'       // Magenta
         };
 
@@ -224,6 +227,7 @@ class PerformanceMonitor {
      */
     setVisible(visible) {
         this.visible = visible;
+        this._updateToggleButton();
     }
 
     /**
@@ -231,6 +235,77 @@ class PerformanceMonitor {
      */
     toggle() {
         this.visible = !this.visible;
+        this._updateToggleButton();
+    }
+
+    /**
+     * Create the FPS toggle button (small button in top-right when meter is hidden)
+     * @private
+     */
+    _createToggleButton() {
+        // Create clickable overlay for the FPS meter itself
+        this.meterOverlay = document.createElement('div');
+        this.meterOverlay.id = 'fps-meter-overlay';
+        this.meterOverlay.style.cssText = `
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            width: 220px;
+            height: 120px;
+            cursor: pointer;
+            z-index: 9999;
+            pointer-events: auto;
+        `;
+        this.meterOverlay.addEventListener('click', () => this.toggle());
+        this.meterOverlay.title = 'Click to hide FPS meter';
+        document.body.appendChild(this.meterOverlay);
+
+        // Create small toggle button (appears when meter is hidden)
+        this.toggleButton = document.createElement('button');
+        this.toggleButton.id = 'fps-toggle-button';
+        this.toggleButton.textContent = 'FPS';
+        this.toggleButton.style.cssText = `
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.9);
+            border: 1px solid #888888;
+            border-radius: 4px;
+            color: #888888;
+            padding: 6px 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            cursor: pointer;
+            z-index: 10000;
+            pointer-events: auto;
+            display: none;
+            transition: all 0.3s;
+        `;
+        this.toggleButton.addEventListener('click', () => this.toggle());
+        this.toggleButton.addEventListener('mouseenter', () => {
+            this.toggleButton.style.borderColor = '#00b8b8';
+            this.toggleButton.style.color = '#00b8b8';
+        });
+        this.toggleButton.addEventListener('mouseleave', () => {
+            this.toggleButton.style.borderColor = '#888888';
+            this.toggleButton.style.color = '#888888';
+        });
+        this.toggleButton.title = 'Click to show FPS meter';
+        document.body.appendChild(this.toggleButton);
+
+        // Initial state
+        this._updateToggleButton();
+    }
+
+    /**
+     * Update toggle button visibility based on meter state
+     * @private
+     */
+    _updateToggleButton() {
+        if (this.meterOverlay && this.toggleButton) {
+            this.meterOverlay.style.display = this.visible ? 'block' : 'none';
+            this.toggleButton.style.display = this.visible ? 'none' : 'block';
+        }
     }
 
     /**

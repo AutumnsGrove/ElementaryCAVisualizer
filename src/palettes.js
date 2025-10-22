@@ -19,19 +19,19 @@
 const PALETTES = {
   synthwave: {
     name: 'Synthwave',
-    description: 'Hot neon colors - pink, cyan, electric blue',
+    description: 'Hot neon colors - pink, cyan, electric blue (toned down)',
     background: '#0a0a0a',
     alive: '#ff00ff',      // Hot pink - default for CA cells
     dead: '#0a0a0a',       // Near-black
     colors: {
       primary: '#ff00ff',   // Hot pink
-      secondary: '#00ffff', // Cyan
+      secondary: '#00b8b8', // Cyan (toned down from #00ffff)
       tertiary: '#ff0080',  // Pink
-      quaternary: '#0080ff' // Electric blue
+      quaternary: '#0066cc' // Electric blue (toned down from #0080ff)
     },
     gradients: [
       ['#ff00ff', '#ff0080', '#ff00ff'], // Pink cycle
-      ['#00ffff', '#0080ff', '#00ffff']  // Blue cycle
+      ['#00b8b8', '#0066cc', '#00b8b8']  // Blue cycle (toned down)
     ]
   },
 
